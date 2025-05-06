@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmlearn - Agricultural Education Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #40B5AD;
+            --secondary-color: #264653;
+            --accent-color: #E9C46A;
+            --bg-color: #9FE2D9;
+        }
+
+        body {
+            padding-top: 76px;
+        }
+
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand img {
+            height: 40px;
+        }
+
+        .nav-link {
+            color: var(--secondary-color) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .btn-auth {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+
+        .btn-auth:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #368F88;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .featured-image {
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+
+        .featured-image:hover {
+            transform: scale(1.05);
+        }
+
+        .image-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .image-overlay {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .image-overlay::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+        }
+
+        .course-card {
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .course-img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0;
+        }
+
+        .footer-links a {
+            transition: padding-left 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            padding-left: 10px;
+            color: rgba(255,255,255,0.8) !important;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+        }
+
+        .newsletter-form .form-control {
+            padding: 10px 20px;
+            border: none;
+        }
+
+        .newsletter-form .form-control:focus {
+            box-shadow: none;
+            border-color: var(--primary-color);
+        }
+
+        .btn-success:hover {
+            background-color: #45a049 !important;
+        }
+
+        .modal-header {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .profile-dropdown {
+            display: none;
+        }
+
+        .profile-dropdown.show {
+            display: block;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(64, 181, 173, 0.25);
+        }
+
+        #profileSection {
+            display: none;
+        }
+
+        #authSection {
+            display: block;
+        }
+
+        .why-choose-section {
+            background-color: #f8f9fa;
+        }
+
+        .benefit-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
+        }
+
+        .icon-circle {
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-card:hover .icon-circle {
+            transform: scale(1.1);
+        }
+
+        .content-box {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-box::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #40B5AD;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+            background-color: #368F88;
+        }
+
+        .chatbot-button img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .chatbot-window {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chatbot-header {
+            background-color: #40B5AD;
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chatbot-header img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+        }
+
+        .user-message {
+            background-color: #f0f0f0;
+            align-self: flex-end;
+        }
+
+        .bot-message {
+            background-color: #e3f2fd;
+            align-self: flex-start;
+        }
+
+        .chatbot-input {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 8px 15px;
+            outline: none;
+        }
+
+        .chatbot-input button {
+            background-color: #40B5AD;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-input button:hover {
+            background-color: #368F88;
+        }
+
+        .close-chatbot {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Horizontal Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="logo.png" alt="Farmlearn Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-home me-2"></i>Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html"><i class="fas fa-info-circle me-2"></i>About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="courses.html"><i class="fas fa-book me-2"></i>Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="calculator.html"><i class="fas fa-calculator me-2"></i>Calculator</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html"><i class="fas fa-envelope me-2"></i>Contact</a>
+                    </li>
+                </ul>
+                <!-- Auth Buttons Section -->
+                <div id="authSection" class="d-flex">
+                    <button class="btn btn-auth" data-bs-toggle="modal" data-bs-target="#signInModal">Sign In</button>
+                    <button class="btn btn-auth" data-bs-toggle="modal" data-bs-target="#signUpModal">Sign Up</button>
+                </div>
+                <!-- Profile Section (Initially Hidden) -->
+                <div id="profileSection" class="d-flex align-items-center">
+                    <div class="dropdown">
+                        <button class="btn btn-auth dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-2"></i><span id="userName">User</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user me-2"></i>Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="handleLogout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <h1 class="display-4 mb-4">Welcome to Farmlearn</h1>
+                <p class="lead mb-4">Master modern agricultural techniques with our expert-led courses</p>
+                <a href="courses.html" class="btn btn-primary btn-lg">Explore Courses</a>
+            </div>
+        </section>
+
+        <!-- Featured Images Section -->
+        <section class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5">Discover Modern Agriculture</h2>
+                <div class="row">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="image-overlay">
+                            <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" alt="Smart Farming" class="featured-image w-100">
+                            <h4 class="image-caption">Smart Farming Technology</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="image-overlay">
+                            <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" alt="Organic Farming" class="featured-image w-100">
+                            <h4 class="image-caption">Organic Farming</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="image-overlay">
+                            <img src="https://images.unsplash.com/photo-1463123081488-789f998ac9c4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" alt="Modern Irrigation" class="featured-image w-100">
+                            <h4 class="image-caption">Modern Irrigation Systems</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose Our Products Section -->
+        <section class="why-choose-section py-5">
+            <div class="container">
+                <div class="row">
+                    <!-- Left Column with Text -->
+                    <div class="col-lg-5 mb-4 mb-lg-0">
+                        <div class="content-box p-4" style="background-color: var(--primary-color); border-radius: 15px; height: 100%;">
+                            <h2 class="text-white mb-4" style="font-size: 2.5rem;">Why Choose Our Products?</h2>
+                            <p class="text-white mb-4">
+                                Transform your agricultural knowledge with Farmlearn's comprehensive courses. Our platform offers expert-led training, practical insights, and modern farming techniques to help you succeed in agriculture.
+                            </p>
+                            <a href="#courses" class="btn btn-light px-4 py-2" style="border-radius: 30px;">
+                                Learn More <i class="fas fa-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Column with Benefits -->
+                    <div class="col-lg-7">
+                        <div class="row">
+                            <!-- Benefit 1 -->
+                            <div class="col-md-6 mb-4">
+                                <div class="benefit-card p-4 h-100" style="background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                                    <div class="icon-circle mb-4" style="width: 70px; height: 70px; background-color: rgba(76, 175, 80, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-graduation-cap text-success fa-2x"></i>
+                                    </div>
+                                    <h3 class="h5 mb-3">Expert-Led Training</h3>
+                                    <p class="text-muted">Learn from experienced agricultural experts and successful farmers with years of practical experience.</p>
+                                </div>
+                            </div>
+
+                            <!-- Benefit 2 -->
+                            <div class="col-md-6 mb-4">
+                                <div class="benefit-card p-4 h-100" style="background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                                    <div class="icon-circle mb-4" style="width: 70px; height: 70px; background-color: rgba(76, 175, 80, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-mobile-alt text-success fa-2x"></i>
+                                    </div>
+                                    <h3 class="h5 mb-3">Learn Anywhere, Anytime</h3>
+                                    <p class="text-muted">Access course content on any device, with offline viewing options for continuous learning.</p>
+                                </div>
+                            </div>
+
+                            <!-- Benefit 3 -->
+                            <div class="col-md-6 mb-4">
+                                <div class="benefit-card p-4 h-100" style="background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                                    <div class="icon-circle mb-4" style="width: 70px; height: 70px; background-color: rgba(76, 175, 80, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-hands-helping text-success fa-2x"></i>
+                                    </div>
+                                    <h3 class="h5 mb-3">Practical Approach</h3>
+                                    <p class="text-muted">Get hands-on experience with real-world farming scenarios and practical demonstrations.</p>
+                                </div>
+                            </div>
+
+                            <!-- Benefit 4 -->
+                            <div class="col-md-6 mb-4">
+                                <div class="benefit-card p-4 h-100" style="background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                                    <div class="icon-circle mb-4" style="width: 70px; height: 70px; background-color: rgba(76, 175, 80, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-certificate text-success fa-2x"></i>
+                                    </div>
+                                    <h3 class="h5 mb-3">Certified Programs</h3>
+                                    <p class="text-muted">Earn recognized certificates upon course completion to validate your agricultural expertise.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits Section with Images -->
+        <section class="why-choose-section py-5">
+            <div class="container">
+                <h2 class="text-center mb-5">Why Choose Farmlearn?</h2>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="benefit-card h-100 p-4 bg-white rounded shadow-sm">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img src="https://images.unsplash.com/photo-1592982537447-7440770cbfc9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Expert Training" class="w-100 rounded mb-3">
+                                </div>
+                                <div class="col-md-8">
+                                    <h4>Expert Training</h4>
+                                    <p>Learn from industry experts with years of practical experience in modern farming techniques.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="benefit-card h-100 p-4 bg-white rounded shadow-sm">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img src="https://images.unsplash.com/photo-1589923188900-85dae523342b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Practical Learning" class="w-100 rounded mb-3">
+                                </div>
+                                <div class="col-md-8">
+                                    <h4>Practical Learning</h4>
+                                    <p>Hands-on experience with modern farming equipment and techniques.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Agriculture Gallery -->
+        <section class="py-5 bg-light">
+            <div class="container">
+                <h2 class="text-center mb-5">Agricultural Excellence</h2>
+                <div class="row g-4">
+                    <div class="col-md-3">
+                        <div class="image-overlay">
+                            <img src="https://images.unsplash.com/photo-1592982537447-7440770cbfc9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Sustainable Farming" class="featured-image w-100">
+                            <h5 class="image-caption">Sustainable Farming</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="image-overlay">
+                            <img src="https://images.unsplash.com/photo-1589923188900-85dae523342b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Crop Research" class="featured-image w-100">
+                            <h5 class="image-caption">Crop Research</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="image-overlay">
+                            <img src="https://images.unsplash.com/photo-1599666433232-2b222eb02b8c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Soil Analysis" class="featured-image w-100">
+                            <h5 class="image-caption">Soil Analysis</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="image-overlay">
+                            <img src="https://images.unsplash.com/photo-1560493676-04071c5f467b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Modern Equipment" class="featured-image w-100">
+                            <h5 class="image-caption">Modern Equipment</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Courses Section -->
+        <section id="courses" class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5">Our Courses</h2>
+                <div class="row">
+                    <!-- Soil Fertility Course -->
+                    <div class="col-md-4">
+                        <div class="card course-card">
+                            <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="card-img-top course-img" alt="Soil Fertility">
+                            <div class="card-body">
+                                <h5 class="card-title">Soil Fertility</h5>
+                                <p class="card-text">Learn about soil composition, nutrients, and maintenance techniques.</p>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#courseModal1">Learn More</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Crop Management Course -->
+                    <div class="col-md-4">
+                        <div class="card course-card">
+                            <img src="https://images.unsplash.com/photo-1574943320219-553eb213f72d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="card-img-top course-img" alt="Crop Management">
+                            <div class="card-body">
+                                <h5 class="card-title">Crop Management</h5>
+                                <p class="card-text">Master the techniques of effective crop management and protection.</p>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#courseModal2">Learn More</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seasonal Cropping Course -->
+                    <div class="col-md-4">
+                        <div class="card course-card">
+                            <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="card-img-top course-img" alt="Seasonal Cropping">
+                            <div class="card-body">
+                                <h5 class="card-title">Seasonal Cropping</h5>
+                                <p class="card-text">Understand seasonal patterns and optimal crop rotation strategies.</p>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#courseModal3">Learn More</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer mt-5">
+            <div class="container py-5">
+                <div class="row">
+                    <!-- Company Info -->
+                    <div class="col-lg-3 mb-4">
+                        <img src="logo.png" alt="Farmlearn Logo" class="footer-logo mb-4" style="height: 40px;">
+                        <p class="mb-2">Chitkara University Baddi</p>
+                        <p class="mb-2">Himachal Pradesh, India</p>
+                        <p class="mb-2"><strong>Phone:</strong> +91 7986067089</p>
+                        <p class="mb-4"><strong>Email:</strong> farmlearnedu@gmail.com</p>
+                        <div class="social-links">
+                            <a href="#" class="me-3 text-white"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="me-3 text-white"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="me-3 text-white"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="me-3 text-white"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Useful Links -->
+                    <div class="col-lg-3 mb-4">
+                        <h4 class="text-white mb-4">Useful Links</h4>
+                        <ul class="list-unstyled footer-links">
+                            <li class="mb-2"><a href="index.html" class="text-white text-decoration-none">Home</a></li>
+                            <li class="mb-2"><a href="about.html" class="text-white text-decoration-none">About us</a></li>
+                            <li class="mb-2"><a href="courses.html" class="text-white text-decoration-none">Courses</a></li>
+                            <li class="mb-2"><a href="TOS.pdf" class="text-white text-decoration-none" target="_blank">Terms of service</a></li>
+                            <li class="mb-2"><a href="https://www.termsfeed.com/live/c4a72b3f-e43f-4d4a-8045-c1b25efa6a2e" class="text-white text-decoration-none">Privacy policy</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Our Courses (replacing Our Services) -->
+                    <div class="col-lg-3 mb-4">
+                        <h4 class="text-white mb-4">Our Courses</h4>
+                        <ul class="list-unstyled footer-links">
+                            <li class="mb-2">
+                                <a href="#" class="text-white text-decoration-none">
+                                    <i class="fas fa-seedling me-2"></i>Soil Fertility
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-white text-decoration-none">
+                                    <i class="fas fa-leaf me-2"></i>Crop Management
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-white text-decoration-none">
+                                    <i class="fas fa-calendar-alt me-2"></i>Seasonal Cropping
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-white text-decoration-none">
+                                    <i class="fas fa-tint me-2"></i>Irrigation Techniques
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-white text-decoration-none">
+                                    <i class="fas fa-bug me-2"></i>Pest Control
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-white text-decoration-none">
+                                    <i class="fas fa-warehouse me-2"></i>Storage Management
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Newsletter -->
+                    <div class="col-lg-3 mb-4">
+                        <h4 class="text-white mb-4">Our Newsletter</h4>
+                        <p class="text-white mb-4">Subscribe to our newsletter and receive the latest news about our products and services!</p>
+                        <div class="newsletter-form">
+                            <div class="input-group mb-3">
+                                <input type="email" class="form-control" placeholder="Enter your email" style="border-radius: 30px 0 0 30px;">
+                                <button class="btn btn-success" type="button" style="border-radius: 0 30px 30px 0; background-color: #4CAF50; border: none;">Subscribe</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Sign In Modal -->
+    <div class="modal fade" id="signInModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Sign In</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="signInForm" onsubmit="handleSignIn(event)">
+                        <div class="mb-3">
+                            <label for="signInEmail" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="signInEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signInPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="signInPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Sign In</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign Up Modal -->
+    <div class="modal fade" id="signUpModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Sign Up</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="signUpForm" onsubmit="handleSignUp(event)">
+                        <div class="mb-3">
+                            <label for="signUpName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="signUpName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signUpEmail" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="signUpEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signUpPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="signUpPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signUpConfirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="signUpConfirmPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Course Modals -->
+    <div class="modal fade" id="courseModal1" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Soil Fertility</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Learn about soil composition, nutrients, and maintenance techniques. This course covers:</p>
+                    <ul>
+                        <li>Soil composition and structure</li>
+                        <li>Essential nutrients for plant growth</li>
+                        <li>Soil testing and analysis</li>
+                        <li>Fertilization techniques</li>
+                    </ul>
+                    <button class="btn btn-primary w-100">Enroll Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="courseModal2" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Crop Management</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Master the techniques of effective crop management and protection. Topics include:</p>
+                    <ul>
+                        <li>Pest control strategies</li>
+                        <li>Disease management</li>
+                        <li>Irrigation techniques</li>
+                        <li>Harvest optimization</li>
+                    </ul>
+                    <button class="btn btn-primary w-100">Enroll Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="courseModal3" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Seasonal Cropping</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Understand seasonal patterns and optimal crop rotation strategies. Learn about:</p>
+                    <ul>
+                        <li>Crop rotation principles</li>
+                        <li>Seasonal planning</li>
+                        <li>Climate considerations</li>
+                        <li>Yield optimization</li>
+                    </ul>
+                    <button class="btn btn-primary w-100">Enroll Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Authentication handling
+        function handleSignIn(event) {
+            event.preventDefault();
+            const email = document.getElementById('signInEmail').value;
+            const password = document.getElementById('signInPassword').value;
+            
+            // Here you would typically validate credentials with a backend
+            // For demo, we'll just simulate a successful login
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userName', email.split('@')[0]);
+            
+            // Update UI
+            updateAuthUI();
+            
+            // Clear form
+            document.getElementById('signInForm').reset();
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('signInModal'));
+            modal.hide();
+        }
+
+        async function handleSignUp(event) {
+            event.preventDefault();
+            const name = document.getElementById('signUpName').value;
+            const email = document.getElementById('signUpEmail').value;
+            const password = document.getElementById('signUpPassword').value;
+            const confirmPassword = document.getElementById('signUpConfirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Store user data in localStorage
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userName', name);
+                    localStorage.setItem('userId', data.userId);
+
+                    // Update UI
+                    updateAuthUI();
+
+                    // Clear form
+                    document.getElementById('signUpForm').reset();
+
+                    // Close modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('signUpModal'));
+                    modal.hide();
+
+                    alert('Registration successful!');
+                } else {
+                    alert(data.error || 'Registration failed. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Registration failed. Please try again.');
+            }
+        }
+
+        function handleLogout() {
+            // Clear auth data
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userName');
+            
+            // Update UI immediately
+            updateAuthUI();
+            
+            // Redirect to index.html
+            if (window.location.pathname !== '/index.html') {
+                window.location.href = 'index.html';
+            }
+        }
+
+        function updateAuthUI() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const userName = localStorage.getItem('userName');
+            const authSection = document.getElementById('authSection');
+            const profileSection = document.getElementById('profileSection');
+
+            // Handle auth section visibility with transition
+            if (isLoggedIn) {
+                authSection.style.opacity = '0';
+                setTimeout(() => {
+                    authSection.style.display = 'none';
+                    profileSection.style.display = 'flex';
+                    setTimeout(() => {
+                        profileSection.style.opacity = '1';
+                    }, 50);
+                }, 300);
+            } else {
+                profileSection.style.opacity = '0';
+                setTimeout(() => {
+                    profileSection.style.display = 'none';
+                    authSection.style.display = 'flex';
+                    setTimeout(() => {
+                        authSection.style.opacity = '1';
+                    }, 50);
+                }, 300);
+            }
+            
+            // Update username if logged in
+            if (isLoggedIn && userName) {
+                document.getElementById('userName').textContent = userName;
+            }
+        }
+
+        // Add CSS transitions
+        document.addEventListener('DOMContentLoaded', () => {
+            const style = document.createElement('style');
+            style.textContent = `
+                #authSection, #profileSection {
+                    opacity: 0;
+                    transition: opacity 0.3s ease-in-out;
+                }
+                #profileSection {
+                    display: none;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Check initial auth status
+            updateAuthUI();
+        });
+    </script>
+    <!-- Chatbot Component -->
+    <div class="chatbot-container">
+        <button class="chatbot-button" onclick="toggleChatbot()">
+            <img src="windmill-logo.svg" alt="Rize Chatbot">
+        </button>
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <div style="display: flex; align-items: center;">
+                    <img src="windmill-logo.svg" alt="Rize Logo">
+                    <h5 class="mb-0">Rize Assistant</h5>
+                </div>
+                <button class="close-chatbot" onclick="toggleChatbot()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="message bot-message">
+                    Hello! I'm Rize, your agricultural assistant. How can I help you today?
+                </div>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="userInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const agriculturalKnowledge = {
+            "soil": [
+                "Soil health is crucial for successful farming. The main types of soil are sandy, clay, and loam.",
+                "To improve soil fertility, consider crop rotation, adding organic matter, and proper pH management.",
+                "Soil testing should be done at least once a year to monitor nutrient levels and pH."
+            ],
+            "crops": [
+                "Different crops have different growing seasons and requirements. Always check your local climate zone.",
+                "Crop rotation helps prevent soil depletion and reduces pest problems.",
+                "Consider companion planting to naturally deter pests and improve yields."
+            ],
+            "irrigation": [
+                "Efficient irrigation systems can save up to 50% of water compared to traditional methods.",
+                "Drip irrigation is most efficient for water conservation.",
+                "Monitor soil moisture levels to avoid over or under watering."
+            ],
+            "pests": [
+                "Integrated Pest Management (IPM) combines biological, cultural, and chemical methods.",
+                "Natural predators like ladybugs can help control aphid populations.",
+                "Regular monitoring helps catch pest problems early."
+            ],
+            "fertilizers": [
+                "Organic fertilizers improve soil structure and microbial activity.",
+                "Always follow recommended application rates to avoid nutrient runoff.",
+                "Consider soil test results when choosing fertilizers."
+            ]
+        };
+
+        const generalKnowledge = {
+            "hello": "Hello! How can I assist you today?",
+            "hi": "Hi there! I'm here to help with your agricultural questions.",
+            "help": "I can help you with agricultural topics like soil management, crop cultivation, irrigation, pest control, and more. What would you like to know?",
+            "thanks": "You're welcome! Feel free to ask if you need more help.",
+            "bye": "Goodbye! Have a great day farming!",
+            "weather": "For accurate weather information, please check your local weather service. I can help you understand how weather affects your crops.",
+            "time": "I don't have access to the current time, but I can help you with agricultural timing and scheduling."
+        };
+
+        function toggleChatbot() {
+            const chatbotWindow = document.getElementById('chatbotWindow');
+            chatbotWindow.style.display = chatbotWindow.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const message = userInput.value.trim();
+            
+            if (message) {
+                addMessage(message, 'user');
+                const response = getResponse(message);
+                setTimeout(() => addMessage(response, 'bot'), 500);
+                userInput.value = '';
+            }
+        }
+
+        function addMessage(text, sender) {
+            const messagesDiv = document.getElementById('chatbotMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.textContent = text;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function getResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            // Check for agricultural keywords
+            for (const [topic, responses] of Object.entries(agriculturalKnowledge)) {
+                if (lowerMessage.includes(topic)) {
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            }
+
+            // Check for general conversation
+            for (const [keyword, response] of Object.entries(generalKnowledge)) {
+                if (lowerMessage.includes(keyword)) {
+                    return response;
+                }
+            }
+
+            // Default response for unknown queries
+            return "I'm not sure about that. Could you rephrase your question or ask about agricultural topics like soil, crops, irrigation, pests, or fertilizers?";
+        }
+    </script>
+</body>
+</html>
