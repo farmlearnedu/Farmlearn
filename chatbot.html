@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rize Chatbot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #40B5AD;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+            background-color: #368F88;
+        }
+
+        .chatbot-button img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .chatbot-window {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chatbot-header {
+            background-color: #40B5AD;
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chatbot-header img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+        }
+
+        .user-message {
+            background-color: #f0f0f0;
+            align-self: flex-end;
+        }
+
+        .bot-message {
+            background-color: #e3f2fd;
+            align-self: flex-start;
+        }
+
+        .chatbot-input {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 8px 15px;
+            outline: none;
+        }
+
+        .chatbot-input button {
+            background-color: #40B5AD;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-input button:hover {
+            background-color: #368F88;
+        }
+
+        .close-chatbot {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="chatbot-container">
+        <button class="chatbot-button" onclick="toggleChatbot()">
+            <img src="windmill-logo.png" alt="Rize Chatbot">
+        </button>
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <div style="display: flex; align-items: center;">
+                    <img src="windmill-logo.png" alt="Rize Logo">
+                    <h5 class="mb-0">Rize Assistant</h5>
+                </div>
+                <button class="close-chatbot" onclick="toggleChatbot()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="message bot-message">
+                    Hello! I'm Rize, your agricultural assistant. How can I help you today?
+                </div>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="userInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const agriculturalKnowledge = {
+            "soil": [
+                "Soil health is crucial for successful farming. The main types of soil are sandy, clay, and loam.",
+                "To improve soil fertility, consider crop rotation, adding organic matter, and proper pH management.",
+                "Soil testing should be done at least once a year to monitor nutrient levels and pH."
+            ],
+            "crops": [
+                "Different crops have different growing seasons and requirements. Always check your local climate zone.",
+                "Crop rotation helps prevent soil depletion and reduces pest problems.",
+                "Consider companion planting to naturally deter pests and improve yields."
+            ],
+            "irrigation": [
+                "Efficient irrigation systems can save up to 50% of water compared to traditional methods.",
+                "Drip irrigation is most efficient for water conservation.",
+                "Monitor soil moisture levels to avoid over or under watering."
+            ],
+            "pests": [
+                "Integrated Pest Management (IPM) combines biological, cultural, and chemical methods.",
+                "Natural predators like ladybugs can help control aphid populations.",
+                "Regular monitoring helps catch pest problems early."
+            ],
+            "fertilizers": [
+                "Organic fertilizers improve soil structure and microbial activity.",
+                "Always follow recommended application rates to avoid nutrient runoff.",
+                "Consider soil test results when choosing fertilizers."
+            ]
+        };
+
+        const generalKnowledge = {
+            "hello": "Hello! How can I assist you today?",
+            "hi": "Hi there! I'm here to help with your agricultural questions.",
+            "help": "I can help you with agricultural topics like soil management, crop cultivation, irrigation, pest control, and more. What would you like to know?",
+            "thanks": "You're welcome! Feel free to ask if you need more help.",
+            "bye": "Goodbye! Have a great day farming!",
+            "weather": "For accurate weather information, please check your local weather service. I can help you understand how weather affects your crops.",
+            "time": "I don't have access to the current time, but I can help you with agricultural timing and scheduling."
+        };
+
+        function toggleChatbot() {
+            const chatbotWindow = document.getElementById('chatbotWindow');
+            chatbotWindow.style.display = chatbotWindow.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const message = userInput.value.trim();
+            
+            if (message) {
+                addMessage(message, 'user');
+                const response = getResponse(message);
+                setTimeout(() => addMessage(response, 'bot'), 500);
+                userInput.value = '';
+            }
+        }
+
+        function addMessage(text, sender) {
+            const messagesDiv = document.getElementById('chatbotMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.textContent = text;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function getResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            // Check for agricultural keywords
+            for (const [topic, responses] of Object.entries(agriculturalKnowledge)) {
+                if (lowerMessage.includes(topic)) {
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            }
+
+            // Check for general conversation
+            for (const [keyword, response] of Object.entries(generalKnowledge)) {
+                if (lowerMessage.includes(keyword)) {
+                    return response;
+                }
+            }
+
+            // Default response for unknown queries
+            return "I'm not sure about that. Could you rephrase your question or ask about agricultural topics like soil, crops, irrigation, pests, or fertilizers?";
+        }
+    </script>
+</body>
+</html> 

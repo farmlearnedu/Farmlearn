@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Farmlearn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #40B5AD;
+            --secondary-color: #264653;
+            --accent-color: #E9C46A;
+            --bg-color: #9FE2D9;
+        }
+
+        body {
+            padding-top: 76px;
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .profile-hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1592982537447-7440770cbfc9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar {
+            background-color: var(--primary-color);
+        }
+
+        .course-card {
+            border: none;
+            border-radius: 10px;
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .certificate-modal {
+            max-width: 800px;
+        }
+
+        .certificate {
+            background: white;
+            padding: 40px;
+            border: 2px solid var(--primary-color);
+            text-align: center;
+            position: relative;
+        }
+
+        .certificate::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M0,0 L100,0 L100,100 L0,100 Z" fill="none" stroke="%2340B5AD" stroke-width="2" stroke-dasharray="5,5"/></svg>');
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .certificate-logo {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+        }
+
+        .certificate-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .certificate-subtitle {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 30px;
+        }
+
+        .certificate-name {
+            font-size: 2rem;
+            margin: 30px 0;
+            padding: 20px;
+            border-top: 2px solid var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .certificate-details {
+            margin: 20px 0;
+            font-size: 1.1rem;
+        }
+
+        .certificate-date {
+            margin-top: 30px;
+            font-style: italic;
+        }
+
+        .certificate-signature {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 50px;
+        }
+
+        .signature-line {
+            border-top: 1px solid var(--secondary-color);
+            width: 200px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="logo.png" alt="Farmlearn Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home me-2"></i>Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html"><i class="fas fa-info-circle me-2"></i>About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="courses.html"><i class="fas fa-book me-2"></i>Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="calculator.html"><i class="fas fa-calculator me-2"></i>Calculator</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html"><i class="fas fa-envelope me-2"></i>Contact</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <div class="dropdown">
+                        <button class="btn btn-auth dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-2"></i><span id="userName">User</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item active" href="profile.html"><i class="fas fa-user me-2"></i>Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="handleLogout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="profile-hero">
+        <div class="container">
+            <h1 class="display-4 mb-4">My Profile</h1>
+            <p class="lead">Track your learning progress and achievements</p>
+        </div>
+    </section>
+
+    <!-- Profile Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <!-- User Info -->
+                <div class="col-md-4">
+                    <div class="profile-card text-center">
+                        <img src="https://via.placeholder.com/150" alt="Profile Picture" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                        <h3 id="profileName">User Name</h3>
+                        <p class="text-muted" id="profileEmail">user@example.com</p>
+                        <p class="text-muted" id="joinDate">Member since: January 2024</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#certificateModal">
+                            Generate Certificate
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Course Progress -->
+                <div class="col-md-8">
+                    <div class="profile-card">
+                        <h3 class="mb-4">Course Progress</h3>
+                        <div class="mb-4">
+                            <h5>Soil Fertility</h5>
+                            <div class="progress mb-3">
+                                <div class="progress-bar" role="progressbar" style="width: 75%">75%</div>
+                            </div>
+                            <p class="text-muted">Time spent: 12 hours</p>
+                        </div>
+                        <div class="mb-4">
+                            <h5>Crop Management</h5>
+                            <div class="progress mb-3">
+                                <div class="progress-bar" role="progressbar" style="width: 50%">50%</div>
+                            </div>
+                            <p class="text-muted">Time spent: 8 hours</p>
+                        </div>
+                        <div class="mb-4">
+                            <h5>Seasonal Cropping</h5>
+                            <div class="progress mb-3">
+                                <div class="progress-bar" role="progressbar" style="width: 25%">25%</div>
+                            </div>
+                            <p class="text-muted">Time spent: 4 hours</p>
+                        </div>
+                    </div>
+
+                    <!-- Enrolled Courses -->
+                    <div class="profile-card">
+                        <h3 class="mb-4">Enrolled Courses</h3>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="course-card">
+                                    <div class="card-body">
+                                        <h5>Soil Fertility</h5>
+                                        <p>Learn about soil health and fertility management</p>
+                                        <a href="#" class="btn btn-sm btn-primary">Continue Learning</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="course-card">
+                                    <div class="card-body">
+                                        <h5>Crop Management</h5>
+                                        <p>Master modern crop management techniques</p>
+                                        <a href="#" class="btn btn-sm btn-primary">Continue Learning</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificate Modal -->
+    <div class="modal fade" id="certificateModal" tabindex="-1">
+        <div class="modal-dialog certificate-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Generate Certificate</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="certificateForm">
+                        <div class="mb-3">
+                            <label for="certificateName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="certificateName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="certificateAge" class="form-label">Age</label>
+                            <input type="number" class="form-control" id="certificateAge" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="certificateCourse" class="form-label">Course</label>
+                            <select class="form-select" id="certificateCourse" required>
+                                <option value="Soil Fertility">Soil Fertility</option>
+                                <option value="Crop Management">Crop Management</option>
+                                <option value="Seasonal Cropping">Seasonal Cropping</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Generate Certificate</button>
+                    </form>
+
+                    <!-- Certificate Template (Initially Hidden) -->
+                    <div id="certificateTemplate" class="certificate mt-4" style="display: none;">
+                        <img src="logo.png" alt="Farmlearn Logo" class="certificate-logo">
+                        <h2 class="certificate-title">Certificate of Completion</h2>
+                        <p class="certificate-subtitle">This is to certify that</p>
+                        <h3 class="certificate-name" id="certificateDisplayName"></h3>
+                        <p class="certificate-details">
+                            Has successfully completed the course in<br>
+                            <strong id="certificateDisplayCourse"></strong><br>
+                            with dedication and commitment to learning.
+                        </p>
+                        <p class="certificate-date" id="certificateDate"></p>
+                        <div class="certificate-signature">
+                            <div>
+                                <div class="signature-line"></div>
+                                <p>Course Instructor</p>
+                            </div>
+                            <div>
+                                <div class="signature-line"></div>
+                                <p>Farmlearn Director</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Load user data
+        document.addEventListener('DOMContentLoaded', () => {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Update profile information
+            const userName = localStorage.getItem('userName') || 'User';
+            const userEmail = localStorage.getItem('userEmail') || 'user@example.com';
+            const joinDate = localStorage.getItem('joinDate') || 'January 2024';
+
+            document.getElementById('profileName').textContent = userName;
+            document.getElementById('profileEmail').textContent = userEmail;
+            document.getElementById('joinDate').textContent = `Member since: ${joinDate}`;
+            document.getElementById('userName').textContent = userName;
+
+            // Handle certificate generation
+            const certificateForm = document.getElementById('certificateForm');
+            certificateForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const name = document.getElementById('certificateName').value;
+                const age = document.getElementById('certificateAge').value;
+                const course = document.getElementById('certificateCourse').value;
+                
+                // Update certificate template
+                document.getElementById('certificateDisplayName').textContent = name;
+                document.getElementById('certificateDisplayCourse').textContent = course;
+                
+                // Set current date
+                const today = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('certificateDate').textContent = `Dated: ${today.toLocaleDateString('en-US', options)}`;
+                
+                // Show certificate
+                document.getElementById('certificateTemplate').style.display = 'block';
+            });
+        });
+
+        function handleLogout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userEmail');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html> 

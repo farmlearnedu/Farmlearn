@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organic Farming Course - Farmlearn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #40B5AD;
+            --secondary-color: #264653;
+            --accent-color: #E9C46A;
+            --bg-color: #9FE2D9;
+        }
+
+        body {
+            padding-top: 76px;
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand img {
+            height: 40px;
+        }
+
+        .nav-link {
+            color: var(--secondary-color) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .btn-auth {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            margin-left: 10px;
+            transition: all 0.3s;
+        }
+
+        .btn-auth:hover {
+            background-color: #368F88;
+            color: white;
+        }
+
+        .course-hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .highlight-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .highlight-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            margin: 2rem 0;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .quiz-section {
+            background-color: var(--light-color);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .quiz-question {
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--secondary-color);
+        }
+
+        #quiz-result {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
+        .course-details {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="logo.png" alt="Farmlearn Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home me-2"></i>Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html"><i class="fas fa-info-circle me-2"></i>About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="courses.html"><i class="fas fa-book me-2"></i>Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="calculator.html"><i class="fas fa-calculator me-2"></i>Calculator</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html"><i class="fas fa-envelope me-2"></i>Contact</a>
+                    </li>
+                </ul>
+                <!-- Auth Buttons Section -->
+                <div id="authSection" class="d-flex">
+                    <button class="btn btn-auth" data-bs-toggle="modal" data-bs-target="#signInModal">Sign In</button>
+                    <button class="btn btn-auth" data-bs-toggle="modal" data-bs-target="#signUpModal">Sign Up</button>
+                </div>
+                <!-- Profile Section -->
+                <div id="profileSection" class="d-flex align-items-center" style="display: none;">
+                    <div class="dropdown">
+                        <button class="btn btn-auth dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-2"></i><span id="userName">User</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user me-2"></i>Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="handleLogout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Course Hero -->
+    <section class="course-hero">
+        <div class="container">
+            <h1>Organic Farming Course</h1>
+            <p class="lead">Master sustainable and organic farming practices for healthier crops</p>
+        </div>
+    </section>
+
+    <!-- Course Content -->
+    <section class="py-5">
+        <div class="container">
+            <!-- Course Highlights -->
+            <div class="row mb-5">
+                <div class="col-md-3">
+                    <div class="highlight-card text-center p-4">
+                        <i class="fas fa-seedling highlight-icon"></i>
+                        <h4>Natural Pest Control</h4>
+                        <p>Learn biological pest control methods and natural solutions</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="highlight-card text-center p-4">
+                        <i class="fas fa-recycle highlight-icon"></i>
+                        <h4>Composting</h4>
+                        <p>Master the art of creating nutrient-rich compost</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="highlight-card text-center p-4">
+                        <i class="fas fa-leaf highlight-icon"></i>
+                        <h4>Crop Rotation</h4>
+                        <p>Understand sustainable crop rotation practices</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="highlight-card text-center p-4">
+                        <i class="fas fa-certificate highlight-icon"></i>
+                        <h4>Certification</h4>
+                        <p>Learn organic certification requirements and processes</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Section -->
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/WhOrIUlrnPo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Details -->
+            <div class="course-details">
+                <h3>Course Overview</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-clock me-2"></i> Duration: 6 weeks</li>
+                            <li><i class="fas fa-video me-2"></i> 16 video lessons</li>
+                            <li><i class="fas fa-book me-2"></i> 9 practical exercises</li>
+                            <li><i class="fas fa-certificate me-2"></i> Certificate upon completion</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-submit w-100">Enroll Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Section -->
+            <div class="quiz-section">
+                <h3>Knowledge Check</h3>
+                <form id="quiz-form">
+                    <div class="quiz-question">
+                        <p><strong>1. What is organic farming?</strong></p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q1" value="a">
+                            <label class="form-check-label">Using chemical pesticides and fertilizers</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q1" value="b" data-correct="true">
+                            <label class="form-check-label">Farming without synthetic chemicals and pesticides</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q1" value="c">
+                            <label class="form-check-label">Only growing vegetables</label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <p><strong>2. What is the primary benefit of crop rotation?</strong></p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q2" value="a">
+                            <label class="form-check-label">Increased use of pesticides</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q2" value="b">
+                            <label class="form-check-label">Higher water consumption</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q2" value="c" data-correct="true">
+                            <label class="form-check-label">Improved soil health and natural pest control</label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <p><strong>3. Which of the following is a natural pest control method?</strong></p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q3" value="a" data-correct="true">
+                            <label class="form-check-label">Companion planting</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q3" value="b">
+                            <label class="form-check-label">Chemical spraying</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q3" value="c">
+                            <label class="form-check-label">Genetic modification</label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <p><strong>4. What is composting?</strong></p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q4" value="a">
+                            <label class="form-check-label">Burning organic waste</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q4" value="b" data-correct="true">
+                            <label class="form-check-label">Converting organic waste into nutrient-rich soil amendment</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q4" value="c">
+                            <label class="form-check-label">Disposing of farm waste</label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <p><strong>5. What is required for organic certification?</strong></p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q5" value="a">
+                            <label class="form-check-label">Using GMO seeds</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q5" value="b">
+                            <label class="form-check-label">Regular use of synthetic fertilizers</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q5" value="c" data-correct="true">
+                            <label class="form-check-label">Following organic standards for at least 3 years</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-submit">Submit Quiz</button>
+                </form>
+                <div id="quiz-result"></div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('quiz-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let score = 0;
+            const questions = document.querySelectorAll('.quiz-question');
+            questions.forEach((question, index) => {
+                const selectedAnswer = question.querySelector('input:checked');
+                if (selectedAnswer && selectedAnswer.dataset.correct) {
+                    score++;
+                }
+            });
+            document.getElementById('quiz-result').innerHTML = `Your score: ${score}/${questions.length}`;
+        });
+
+        // Authentication UI Management
+        function updateAuthUI() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const authButtons = document.querySelectorAll('.auth-btn');
+            authButtons.forEach(btn => {
+                btn.style.display = isLoggedIn ? 'none' : 'block';
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', updateAuthUI);
+    </script>
+</body>
+</html> 

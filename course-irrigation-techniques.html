@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irrigation Techniques Course - Farmlearn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #40B5AD;
+            --secondary-color: #264653;
+            --accent-color: #E9C46A;
+            --bg-color: #9FE2D9;
+        }
+
+        body {
+            padding-top: 76px;
+        }
+
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand img {
+            height: 40px;
+        }
+
+        .nav-link {
+            color: var(--secondary-color) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .course-hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1463123081488-789f998ac9c4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .highlight-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .quiz-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+        }
+
+        .quiz-option {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quiz-option:hover {
+            background-color: rgba(64, 181, 173, 0.1);
+        }
+
+        .quiz-option.selected {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #368F88;
+            transform: translateY(-2px);
+        }
+
+        .result-container {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+        }
+
+        .chatbot-button img {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.3s ease;
+        }
+
+        .chatbot-button:hover img {
+            animation: rotateFan 1s linear infinite;
+        }
+
+        @keyframes rotateFan {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .chatbot-window {
+            // ... existing code ...
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="logo.png" alt="Farmlearn Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home me-2"></i>Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html"><i class="fas fa-info-circle me-2"></i>About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="courses.html"><i class="fas fa-book me-2"></i>Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-calculator me-2"></i>Calculator</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact"><i class="fas fa-envelope me-2"></i>Contact</a>
+                    </li>
+                </ul>
+                <!-- Auth Buttons Section -->
+                <div id="authSection" class="d-flex">
+                    <button class="btn btn-auth" data-bs-toggle="modal" data-bs-target="#signInModal">Sign In</button>
+                    <button class="btn btn-auth" data-bs-toggle="modal" data-bs-target="#signUpModal">Sign Up</button>
+                </div>
+                <!-- Profile Section -->
+                <div id="profileSection" class="d-flex align-items-center" style="display: none;">
+                    <div class="dropdown">
+                        <button class="btn btn-auth dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-2"></i><span id="userName">User</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="handleLogout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="course-hero">
+        <div class="container">
+            <h1 class="display-4 mb-4">Irrigation Techniques Course</h1>
+            <p class="lead">Master modern irrigation systems and water management</p>
+        </div>
+    </section>
+
+    <!-- Course Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Course Highlights -->
+                <div class="col-lg-8">
+                    <h2 class="mb-4">Course Highlights</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="highlight-card">
+                                <i class="fas fa-tint fa-3x mb-3" style="color: var(--primary-color);"></i>
+                                <h3>Water Management</h3>
+                                <p>Learn efficient water usage and conservation techniques.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="highlight-card">
+                                <i class="fas fa-tools fa-3x mb-3" style="color: var(--primary-color);"></i>
+                                <h3>System Design</h3>
+                                <p>Master irrigation system design and implementation.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="highlight-card">
+                                <i class="fas fa-cloud-rain fa-3x mb-3" style="color: var(--primary-color);"></i>
+                                <h3>Drip Irrigation</h3>
+                                <p>Understand modern drip irrigation technologies.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="highlight-card">
+                                <i class="fas fa-mobile-alt fa-3x mb-3" style="color: var(--primary-color);"></i>
+                                <h3>Smart Systems</h3>
+                                <p>Learn about automated irrigation control systems.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course Video -->
+                    <h2 class="mb-4 mt-5">Course Introduction</h2>
+                    <div class="video-container">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/5RQU2V1CCAk?si=5XE5y9P2HjauXLQd" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <!-- Course Details -->
+                <div class="col-lg-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h3 class="card-title">Course Details</h3>
+                            <ul class="list-unstyled">
+                                <li class="mb-3"><i class="fas fa-clock me-2" style="color: var(--primary-color);"></i> Duration: 4 weeks</li>
+                                <li class="mb-3"><i class="fas fa-video me-2" style="color: var(--primary-color);"></i> 14 video lessons</li>
+                                <li class="mb-3"><i class="fas fa-book me-2" style="color: var(--primary-color);"></i> 8 practical exercises</li>
+                                <li class="mb-3"><i class="fas fa-certificate me-2" style="color: var(--primary-color);"></i> Certificate upon completion</li>
+                            </ul>
+                            <button class="btn btn-primary w-100">Enroll Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Section -->
+            <div class="quiz-container">
+                <h2 class="mb-4">Course Quiz</h2>
+                <form id="quizForm">
+                    <div class="quiz-question">
+                        <h4>1. What is drip irrigation?</h4>
+                        <div class="quiz-option">
+                            <input type="radio" name="q1" value="a"> Spraying water into the air
+                        </div>
+                        <div class="quiz-option" data-correct="true">
+                            <input type="radio" name="q1" value="b"> Delivering water directly to plant roots
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q1" value="c"> Flooding the field with water
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>2. Which factor is most important for irrigation scheduling?</h4>
+                        <div class="quiz-option">
+                            <input type="radio" name="q2" value="a"> Time of day
+                        </div>
+                        <div class="quiz-option" data-correct="true">
+                            <input type="radio" name="q2" value="b"> Soil moisture content
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q2" value="c"> Water pressure
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>3. What is the advantage of automated irrigation systems?</h4>
+                        <div class="quiz-option">
+                            <input type="radio" name="q3" value="a"> Higher water pressure
+                        </div>
+                        <div class="quiz-option" data-correct="true">
+                            <input type="radio" name="q3" value="b"> Precise water delivery and timing
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q3" value="c"> Lower installation cost
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>4. What is fertigation?</h4>
+                        <div class="quiz-option" data-correct="true">
+                            <input type="radio" name="q4" value="a"> Applying fertilizers through irrigation systems
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q4" value="b"> Filtering irrigation water
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q4" value="c"> Measuring soil fertility
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>5. Which irrigation method is most water-efficient?</h4>
+                        <div class="quiz-option" data-correct="true">
+                            <input type="radio" name="q5" value="a"> Drip irrigation
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q5" value="b"> Flood irrigation
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q5" value="c"> Sprinkler irrigation
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-submit">Submit Quiz</button>
+                </form>
+                <div class="result-container">
+                    <h3>Quiz Results</h3>
+                    <p>Your score: <span id="quizScore">0</span>/5</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Quiz functionality
+        document.getElementById('quizForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let score = 0;
+            const questions = document.querySelectorAll('.quiz-question');
+            
+            questions.forEach(question => {
+                const selectedOption = question.querySelector('input[type="radio"]:checked');
+                if (selectedOption && selectedOption.parentElement.hasAttribute('data-correct')) {
+                    score++;
+                }
+            });
+
+            document.getElementById('quizScore').textContent = score;
+            document.querySelector('.result-container').style.display = 'block';
+        });
+
+        // Authentication handling
+        function updateAuthUI() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const userName = localStorage.getItem('userName');
+
+            document.getElementById('authSection').style.display = isLoggedIn ? 'none' : 'flex';
+            document.getElementById('profileSection').style.display = isLoggedIn ? 'flex' : 'none';
+            
+            if (isLoggedIn && userName) {
+                document.getElementById('userName').textContent = userName;
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userId');
+            updateAuthUI();
+            window.location.href = 'index.html';
+        }
+
+        // Check auth status on page load
+        document.addEventListener('DOMContentLoaded', updateAuthUI);
+    </script>
+</body>
+</html> 
